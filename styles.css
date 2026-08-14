@@ -1,0 +1,207 @@
+@import url('tokens/fonts.css');
+@import url('tokens/colors.css');
+@import url('tokens/typography.css');
+@import url('tokens/spacing.css');
+@import url('tokens/base.css');
+
+/* ==========================================================================
+   Extensiones locales de tokens
+   Los tokens del design system no se modifican; acá sólo se agregan valores
+   derivados (contraste de texto secundario, veladura y textura de gradientes).
+   ========================================================================== */
+:root{
+  /* --text-secondary (0.6) queda por debajo de 4.5:1 sobre Warm Canvas.
+     Este valor se usa para todo el texto corrido secundario. */
+  --text-muted:rgba(28,28,12,0.72);
+  --text-on-dark-muted:rgba(244,243,241,0.82);
+
+  /* Veladura de tinta sobre los gradientes: sostiene el contraste del texto
+     sin apagar la identidad cromática. */
+  --gradient-veil:rgba(28,28,12,0.25);
+
+  --texture-noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   Utilidades
+   ========================================================================== */
+.wrap{max-width:var(--content-max);margin:0 auto;padding-left:var(--space-4);padding-right:var(--space-4)}
+.skip-link{position:absolute;left:var(--space-3);top:-100px;z-index:100;background:var(--ink-900);color:var(--warm-canvas);padding:10px 16px;border-radius:var(--radius-sm);transition:top var(--duration-fast) var(--ease-standard)}
+.skip-link:focus{top:var(--space-3);color:var(--warm-canvas)}
+section{scroll-margin-top:90px}
+
+/* Textura orgánica compartida por los bloques con gradiente */
+.hero::after,.founder::after,.cta::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:var(--texture-noise);background-size:160px 160px;
+  opacity:0.14;mix-blend-mode:overlay;
+}
+
+/* ==========================================================================
+   Marca
+   ========================================================================== */
+.wordmark{font-family:var(--font-display);font-weight:700;font-size:24px;display:inline-flex;align-items:baseline;line-height:1;white-space:nowrap;color:var(--text-primary)}
+a.wordmark:hover{color:var(--text-primary)}
+.wordmark--sm{font-size:18px}
+.wordmark .script{font-family:var(--font-script);font-weight:400;font-size:1.4em;line-height:1;transform:translateY(0.08em);margin:0 -0.02em}
+
+/* ==========================================================================
+   Header — sólo marca y CTA: en una landing de cinco bloques un nav
+   de secciones es ruido, el scroll ya es la navegación.
+   ========================================================================== */
+.site-header{position:sticky;top:0;z-index:20;background:var(--bg-light);border-bottom:var(--border-width) solid var(--border-subtle)}
+.site-header__bar{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);padding-top:var(--space-3);padding-bottom:var(--space-3)}
+
+/* ==========================================================================
+   Botones
+   ========================================================================== */
+.btn{font-family:var(--font-body);font-weight:var(--weight-medium);font-size:var(--text-body-md);line-height:1.2;padding:14px 22px;border:var(--border-width) solid transparent;border-radius:var(--radius-sm);cursor:pointer;display:inline-block;text-align:center;transition:filter var(--duration-fast) var(--ease-standard)}
+.btn:hover{filter:brightness(0.92)}
+/* Texto Vesta Ink sobre Action Coral: 4.8:1. Canvas sobre coral no llega a 4.5:1. */
+.btn--accent{background:var(--color-accent);color:var(--ink-900)}
+.btn--accent:hover{color:var(--ink-900)}
+.btn--ink{background:var(--ink-900);color:var(--warm-canvas)}
+.btn--ink:hover{color:var(--warm-canvas)}
+.btn--sm{padding:12px 18px;font-size:var(--text-body-sm)}
+.btn--lg{padding:16px 28px;font-size:var(--text-body-lg)}
+/* El foco coral sobre un botón coral sería invisible */
+.btn--accent:focus-visible{outline-color:var(--ink-900)}
+
+/* ==========================================================================
+   Etiquetas y encabezados de sección
+   ========================================================================== */
+.badge{font-size:var(--text-caption);font-weight:var(--weight-semibold);letter-spacing:var(--tracking-caption);text-transform:uppercase;padding:6px 12px;border-radius:var(--radius-sm);display:inline-block;margin:0}
+.badge--accent{background:var(--color-accent);color:var(--ink-900)}
+
+.eyebrow{font-size:var(--text-body-sm);font-weight:var(--weight-medium);letter-spacing:var(--tracking-caption);text-transform:uppercase;color:var(--text-muted);margin:0 0 var(--space-3)}
+.eyebrow--on-dark{color:var(--warm-canvas)}
+
+.section{padding-top:var(--space-8);padding-bottom:var(--space-8)}
+.section--tinted{background:var(--surface-card-tinted);border-top:var(--border-width) solid var(--border-subtle);border-bottom:var(--border-width) solid var(--border-subtle)}
+.section__title{font-size:var(--text-display-lg);max-width:20ch;margin:0 0 var(--space-6)}
+
+/* Frase de cierre de bloque: el remate conceptual, no un párrafo más */
+.statement{font-family:var(--font-display);font-weight:600;font-size:var(--text-display-sm);line-height:1.4;max-width:44ch;margin:var(--space-6) 0 0;padding-left:var(--space-4);border-left:3px solid var(--color-accent)}
+.statement--after{border-left-color:var(--color-primary)}
+
+/* ==========================================================================
+   1 · Hero
+   ========================================================================== */
+.hero{
+  position:relative;overflow:hidden;color:var(--white);
+  background:
+    linear-gradient(var(--gradient-veil),var(--gradient-veil)),
+    radial-gradient(70% 55% at 88% 8%,rgba(112,201,236,0.35),transparent 70%),
+    radial-gradient(55% 45% at 96% 40%,rgba(243,180,63,0.30),transparent 70%),
+    radial-gradient(75% 65% at 82% 105%,rgba(229,91,51,0.45),transparent 65%),
+    linear-gradient(155deg,var(--blue-600) 0%,var(--lavender-500) 55%,var(--blue-600) 100%);
+}
+.hero__inner{position:relative;z-index:1;padding-top:var(--space-8);padding-bottom:var(--space-8);max-width:1000px}
+.hero__blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.hero__blob--warm{width:min(46vw,520px);aspect-ratio:1.25;background:var(--gradient-blob-warm);opacity:0.42;top:-18%;right:-8%;border-radius:60% 40% 55% 45%}
+.hero__blob--cool{width:min(38vw,420px);aspect-ratio:0.9;background:var(--gradient-blob);opacity:0.3;bottom:-25%;left:-10%;border-radius:45% 55% 40% 60%}
+.hero h1{font-size:var(--text-display-xl);max-width:16ch;margin:var(--space-4) 0 var(--space-4);color:var(--white)}
+.hero__lead{font-size:var(--text-body-lg);color:var(--white);max-width:56ch;margin:0 0 var(--space-5)}
+.hero__actions{margin:0}
+.hero p.hero__note{margin:var(--space-6) 0 0;font-size:var(--text-body-sm);color:var(--text-on-dark-muted)}
+.hero :focus-visible{outline-color:var(--white)}
+
+/* ==========================================================================
+   2 · El problema
+   ========================================================================== */
+.symptoms{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--grid-gutter)}
+.symptom{background:var(--surface-card);border:var(--border-width) solid var(--border-subtle);border-radius:var(--radius-md);padding:var(--space-5);border-top:3px solid var(--color-secondary)}
+.symptom h3{font-size:var(--text-display-sm);margin-bottom:var(--space-2)}
+.symptom p{color:var(--text-muted);margin:0}
+
+/* ==========================================================================
+   3 · Qué hace VestaOps
+   ========================================================================== */
+.offer__head{max-width:60ch;margin-bottom:var(--space-6)}
+.offer__head h2{font-size:var(--text-display-lg);margin:var(--space-4) 0 var(--space-2)}
+.offer__name{font-family:var(--font-display);font-weight:600;font-size:var(--text-body-lg);margin:0 0 var(--space-3)}
+.offer__lead{font-size:var(--text-body-lg);color:var(--text-muted);margin:0}
+
+.results{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--grid-gutter)}
+.result{background:var(--surface-card);border:var(--border-width) solid var(--border-subtle);border-radius:var(--radius-md);padding:var(--space-5)}
+.result__num{font-family:var(--font-display);font-weight:700;font-size:var(--text-body-sm);letter-spacing:var(--tracking-caption);color:var(--text-muted);display:block;margin-bottom:var(--space-2)}
+.result h3{font-size:var(--text-display-sm);margin-bottom:var(--space-2)}
+.result p{color:var(--text-muted);margin:0}
+
+/* ==========================================================================
+   4 · Victoria
+   ========================================================================== */
+.founder{
+  position:relative;overflow:hidden;color:var(--warm-canvas);
+  padding-top:var(--space-8);padding-bottom:var(--space-8);
+  background:
+    linear-gradient(rgba(28,28,12,0.28),rgba(28,28,12,0.28)),
+    radial-gradient(60% 55% at 85% 10%,rgba(112,201,236,0.32),transparent 70%),
+    radial-gradient(70% 60% at 15% 100%,rgba(229,91,51,0.35),transparent 65%),
+    linear-gradient(145deg,var(--lavender-500),var(--blue-600) 70%);
+}
+.founder__blob{position:absolute;width:min(40vw,440px);aspect-ratio:1.1;border-radius:55% 45% 60% 40%;background:var(--gradient-blob-warm);filter:blur(75px);opacity:0.35;bottom:-30%;right:-8%;pointer-events:none}
+.founder__inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.5fr;gap:var(--space-6);align-items:start}
+.founder__logo{height:34px;width:auto;display:block;margin-bottom:var(--space-4)}
+.founder__intro h2{font-size:var(--text-display-md);color:var(--warm-canvas);margin:0}
+.founder__body p{font-size:var(--text-body-lg);max-width:58ch;margin:0 0 var(--space-4)}
+.founder__quote{font-family:var(--font-display);font-weight:600;line-height:1.4;padding-left:var(--space-4);border-left:3px solid var(--amber-400)}
+.credentials{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.credentials li{font-size:var(--text-body-sm);font-weight:var(--weight-medium);padding:8px 14px;border:var(--border-width) solid rgba(244,243,241,0.45);border-radius:var(--radius-sm)}
+.founder :focus-visible{outline-color:var(--warm-canvas)}
+
+/* ==========================================================================
+   5 · CTA
+   ========================================================================== */
+.cta{
+  position:relative;overflow:hidden;color:var(--ink-900);
+  padding-top:var(--space-8);padding-bottom:var(--space-8);
+  background:
+    radial-gradient(65% 60% at 10% 100%,rgba(108,133,196,0.35),transparent 70%),
+    linear-gradient(135deg,var(--amber-400) 0%,var(--orange-600) 85%);
+}
+.cta__blob{position:absolute;width:min(45vw,480px);aspect-ratio:1.2;border-radius:50% 50% 45% 55%;background:var(--gradient-blob);filter:blur(85px);opacity:0.3;top:-30%;left:-6%;pointer-events:none}
+.cta__inner{position:relative;z-index:1;max-width:760px;text-align:center}
+.cta h2{font-size:var(--text-display-lg);margin-bottom:var(--space-3)}
+.cta__inner > p{font-size:var(--text-body-lg);max-width:52ch;margin:0 auto var(--space-5)}
+.cta__action{margin-bottom:var(--space-5)}
+.cta__contact{font-size:var(--text-body-sm) !important;line-height:1.9;margin:0 auto !important}
+.cta__contact a{color:var(--ink-900);text-decoration:underline}
+.cta__contact a:hover{color:var(--ink-900)}
+.cta :focus-visible{outline-color:var(--ink-900)}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer{border-top:var(--border-width) solid var(--border-subtle)}
+.site-footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3) var(--space-4);flex-wrap:wrap;padding-top:var(--space-5);padding-bottom:var(--space-5);font-size:var(--text-body-sm);color:var(--text-muted)}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width:1024px){
+  .founder__inner{grid-template-columns:1fr;gap:var(--space-5)}
+}
+
+@media (max-width:900px){
+  .section{padding-top:var(--space-7);padding-bottom:var(--space-7)}
+  .founder,.cta{padding-top:var(--space-7);padding-bottom:var(--space-7)}
+  .hero__inner{padding-top:var(--space-7);padding-bottom:var(--space-7)}
+  .symptoms,.results{grid-template-columns:1fr}
+  section{scroll-margin-top:80px}
+}
+
+@media (max-width:640px){
+  .hero__actions .btn,.cta__action .btn{width:100%}
+  /* A 375px el CTA del header envolvía a dos líneas y estiraba la barra sticky */
+  .site-header .btn{padding:12px 14px;font-size:13px}
+  .section__title{max-width:none}
+  /* El display-xl a 44px ocupa casi toda la pantalla en 375px */
+  .hero h1{font-size:clamp(2rem,8.5vw,2.75rem)}
+  .section__title,.offer__head h2,.cta h2{font-size:clamp(1.75rem,6.5vw,2.25rem)}
+  .statement,.founder__quote{font-size:var(--text-body-lg)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:0.01ms !important;animation-duration:0.01ms !important}
+}

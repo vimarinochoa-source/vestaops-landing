@@ -1,0 +1,8 @@
+/* No local font binaries were supplied — Space Grotesk, Geist and Pinyon Script are loaded from Google Fonts. Space Grotesk replaces the original Playfair Display Italic display choice per direction feedback (bold/graphic, financial-consultancy tone). */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Geist:wght@400;500;600&family=Pinyon+Script&display=swap');
+
+:root{
+--font-display:'Space Grotesk',-apple-system,'Segoe UI',sans-serif;
+--font-body:'Geist',-apple-system,'Segoe UI',sans-serif;
+--font-script:'Pinyon Script',cursive;
+}

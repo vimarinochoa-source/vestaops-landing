@@ -1,0 +1,7 @@
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg-light);color:var(--text-primary);font-family:var(--font-body);font-size:var(--text-body-md);line-height:var(--leading-body)}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;line-height:var(--leading-display)}
+a{color:var(--color-primary);text-decoration:none}
+a:hover{color:var(--color-accent)}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.script-accent{font-family:var(--font-script);font-style:normal;display:inline-block;transform:scale(1.4) translateY(0.08em);transform-origin:baseline}
