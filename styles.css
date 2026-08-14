@@ -142,6 +142,7 @@ a.wordmark:hover{color:var(--text-primary)}
 }
 .founder__blob{position:absolute;width:min(40vw,440px);aspect-ratio:1.1;border-radius:55% 45% 60% 40%;background:var(--gradient-blob-warm);filter:blur(75px);opacity:0.35;bottom:-30%;right:-8%;pointer-events:none}
 .founder__inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.5fr;gap:var(--space-6);align-items:start}
+.founder__portrait{width:200px;height:200px;border-radius:50%;object-fit:cover;display:block;margin-bottom:var(--space-4);border:var(--border-width) solid rgba(244,243,241,0.35)}
 .founder__logo{height:34px;width:auto;display:block;margin-bottom:var(--space-4)}
 .founder__intro h2{font-size:var(--text-display-md);color:var(--warm-canvas);margin:0}
 .founder__body p{font-size:var(--text-body-lg);max-width:58ch;margin:0 0 var(--space-4)}
