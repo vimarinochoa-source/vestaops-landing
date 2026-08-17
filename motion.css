@@ -1,0 +1,272 @@
+/* ==========================================================================
+   VestaOps — capa de movimiento
+
+   No cambia ningun color, tipografia, espaciado ni layout: solo agrega
+   estados de entrada e interaccion sobre lo que ya existe.
+
+   Todo el reveal depende de la clase .motion en <html>, que pone el JS.
+   Sin JS, la pagina se ve completa y estatica: nada queda invisible.
+   ========================================================================== */
+
+:root{
+  --ease-premium:cubic-bezier(0.16,1,0.3,1);
+  --dur-1:250ms;
+  --dur-2:400ms;
+  --dur-3:600ms;
+  --dur-4:800ms;
+
+  /* La identidad es plana (el design system excluye sombras). La profundidad
+     al hacer hover se construye con tinta de marca a muy baja opacidad. */
+  --lift-shadow:0 18px 32px -20px rgba(28,28,12,0.28),0 4px 10px -6px rgba(28,28,12,0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Reveal: subida con desenfoque
+   -------------------------------------------------------------------------- */
+.motion [data-reveal]{
+  opacity:0;
+  transform:translateY(24px);
+  filter:blur(6px);
+  transition:
+    opacity var(--dur-3) var(--ease-premium),
+    transform var(--dur-3) var(--ease-premium),
+    filter var(--dur-3) var(--ease-premium);
+  transition-delay:var(--reveal-delay,0ms);
+}
+.motion [data-reveal].is-revealed{
+  opacity:1;
+  transform:none;
+  filter:blur(0);
+}
+
+/* Barrido de izquierda a derecha, para las etiquetas.
+
+   Se hace con mascara y no con clip-path a proposito: clip-path recorta el
+   area que mide el IntersectionObserver, con lo cual un elemento totalmente
+   recortado nunca cuenta como visible y el reveal no se dispara nunca.
+   La mascara es solo pintado y no afecta la deteccion. */
+.motion [data-reveal="wipe"]{
+  opacity:1;
+  transform:none;
+  filter:none;
+  -webkit-mask-image:linear-gradient(90deg,#000,#000);
+          mask-image:linear-gradient(90deg,#000,#000);
+  -webkit-mask-repeat:no-repeat;
+          mask-repeat:no-repeat;
+  -webkit-mask-position:0 0;
+          mask-position:0 0;
+  -webkit-mask-size:0% 100%;
+          mask-size:0% 100%;
+  transition:
+    -webkit-mask-size var(--dur-3) var(--ease-premium),
+    mask-size var(--dur-3) var(--ease-premium);
+  transition-delay:var(--reveal-delay,0ms);
+}
+.motion [data-reveal="wipe"].is-revealed{
+  -webkit-mask-size:100% 100%;
+          mask-size:100% 100%;
+}
+/* Terminado el barrido se saca la mascara: si no, recortaria la sombra de
+   hover del boton, que se dibuja por fuera de la caja. */
+.motion [data-reveal="wipe"].motion-done{
+  -webkit-mask-image:none;
+          mask-image:none;
+}
+
+/* Escala apenas perceptible, para el retrato */
+.motion [data-reveal="scale"]{
+  transform:translateY(16px) scale(0.98);
+  transition:
+    opacity var(--dur-4) var(--ease-premium),
+    transform var(--dur-4) var(--ease-premium),
+    filter var(--dur-4) var(--ease-premium);
+}
+.motion [data-reveal="scale"].is-revealed{transform:none}
+
+/* --------------------------------------------------------------------------
+   Titulares: cada linea sube desde abajo detras de una mascara.
+   El JS agrupa las palabras en lineas reales y las vuelve a calcular
+   cuando cambia el ancho.
+   -------------------------------------------------------------------------- */
+.motion [data-reveal="lines"]{
+  opacity:1;
+  transform:none;
+  filter:none;
+  transition:none;
+}
+.motion .line{
+  display:block;
+  overflow:hidden;
+  /* deja respirar a las colas de las letras, que la mascara recortaria */
+  padding-bottom:0.12em;
+  margin-bottom:-0.12em;
+}
+.motion .line > span{
+  display:block;
+  transform:translateY(110%);
+  transition:transform var(--dur-4) var(--ease-premium);
+  transition-delay:var(--line-delay,0ms);
+}
+.motion [data-reveal="lines"].is-revealed .line > span{transform:none}
+
+/* --------------------------------------------------------------------------
+   Interaccion: tarjetas
+   Solo donde hay puntero real; en tactil el hover se queda pegado.
+   -------------------------------------------------------------------------- */
+@media (hover:hover){
+  .symptom,.result{
+    transition:
+      transform var(--dur-2) var(--ease-premium),
+      border-color var(--dur-2) var(--ease-premium),
+      box-shadow var(--dur-2) var(--ease-premium);
+  }
+  .symptom:hover,.result:hover{
+    transform:translateY(-6px);
+    border-color:var(--border-strong);
+    box-shadow:var(--lift-shadow);
+  }
+
+  .credentials li{
+    transition:
+      transform var(--dur-1) var(--ease-premium),
+      background-color var(--dur-1) var(--ease-premium),
+      border-color var(--dur-1) var(--ease-premium);
+  }
+  .credentials li:hover{
+    transform:translateY(-2px);
+    background:rgba(244,243,241,0.12);
+    border-color:rgba(244,243,241,0.7);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Interaccion: botones
+   El aspecto en reposo no cambia. Se agrega un barrido de luz al pasar por
+   encima y una respuesta al presionar.
+   -------------------------------------------------------------------------- */
+.btn{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  /* El desplazamiento magnetico entra por variable para poder componerlo
+     con el presionado, en vez de que una transformacion pise a la otra. */
+  transform:translate3d(var(--mx,0px),var(--my,0px),0);
+  transition:
+    filter var(--dur-1) var(--ease-premium),
+    transform var(--dur-1) var(--ease-premium),
+    box-shadow var(--dur-2) var(--ease-premium);
+}
+.btn::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,0.22) 50%,transparent 80%);
+  transform:translateX(-110%);
+  transition:transform var(--dur-4) var(--ease-premium);
+  pointer-events:none;
+}
+@media (hover:hover){
+  .btn:hover::after{transform:translateX(110%)}
+  .btn--accent:hover,.btn--ink:hover{box-shadow:var(--lift-shadow)}
+}
+.btn:active{transform:translate3d(var(--mx,0px),var(--my,0px),0) translateY(1px) scale(0.99)}
+
+/* El foco tiene que ganarle al barrido y verse en cualquier fondo */
+.btn:focus-visible{outline-offset:3px}
+
+/* Enlaces de texto del CTA: subrayado que crece desde la izquierda */
+.cta__contact a{
+  position:relative;
+  text-decoration:none;
+  background-image:linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;
+  background-position:0 100%;
+  background-size:100% 1px;
+  transition:background-size var(--dur-2) var(--ease-premium);
+}
+@media (hover:hover){
+  .cta__contact a:hover{background-size:0 1px;background-position:100% 100%}
+}
+
+/* Logotipo del header: micro respuesta */
+.site-header .wordmark{
+  display:inline-flex;
+  transition:transform var(--dur-2) var(--ease-premium);
+}
+@media (hover:hover){
+  .site-header .wordmark:hover{transform:translateY(-1px)}
+}
+
+/* --------------------------------------------------------------------------
+   Retrato: flotacion muy lenta.
+   La flotacion va en la imagen y el parallax del cursor en el contenedor,
+   asi las dos transformaciones no se pisan.
+   -------------------------------------------------------------------------- */
+.founder__portrait-wrap{
+  display:block;
+  width:200px;
+  margin-bottom:var(--space-4);
+}
+/* Una vez revelado, el contenedor queda a disposicion del parallax:
+   el desplazamiento entra por variable para no pisar la entrada. */
+.motion .founder__portrait-wrap.is-revealed{
+  transform:translate3d(var(--px,0px),var(--py,0px),0);
+  transition:transform var(--dur-3) var(--ease-premium);
+}
+.founder__portrait{margin-bottom:0}
+.motion .founder__portrait{animation:vo-float 7s ease-in-out infinite}
+
+@keyframes vo-float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-7px)}
+}
+
+/* --------------------------------------------------------------------------
+   Fondo: los gradientes ya existentes derivan muy despacio.
+   Solo transform y opacidad, sin repintar el gradiente.
+   -------------------------------------------------------------------------- */
+.motion .hero__blob--warm{animation:vo-drift-a 26s ease-in-out infinite}
+.motion .hero__blob--cool{animation:vo-drift-b 34s ease-in-out infinite}
+.motion .founder__blob{animation:vo-drift-b 30s ease-in-out infinite}
+.motion .cta__blob{animation:vo-drift-a 38s ease-in-out infinite}
+
+@keyframes vo-drift-a{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(3%,-4%,0) scale(1.08)}
+}
+@keyframes vo-drift-b{
+  0%,100%{transform:translate3d(0,0,0) scale(1.05)}
+  50%{transform:translate3d(-4%,3%,0) scale(1)}
+}
+
+/* --------------------------------------------------------------------------
+   Movimiento reducido: se respeta sin excepciones.
+   Queda solo la aparicion por opacidad, que no produce sensacion de
+   desplazamiento.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion:reduce){
+  .motion [data-reveal],
+  .motion [data-reveal="wipe"],
+  .motion [data-reveal="scale"]{
+    transform:none !important;
+    filter:none !important;
+    -webkit-mask-image:none !important;
+            mask-image:none !important;
+    transition:opacity var(--dur-2) linear !important;
+  }
+  .motion .line{overflow:visible;padding-bottom:0;margin-bottom:0}
+  .motion .line > span{transform:none !important;transition:none !important}
+
+  .motion .founder__portrait,
+  .motion .hero__blob--warm,
+  .motion .hero__blob--cool,
+  .motion .founder__blob,
+  .motion .cta__blob{animation:none !important}
+
+  .motion .founder__portrait-wrap.is-revealed{transform:none !important}
+
+  .symptom:hover,.result:hover,.credentials li:hover,
+  .site-header .wordmark:hover,.btn,.btn:active{transform:none !important}
+  .btn::after{display:none}
+}

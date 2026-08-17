@@ -6,15 +6,27 @@
 <title>VestaOps — Consultoría financiero-operativa</title>
 <meta name="description" content="Consultoría financiero-operativa para empresas de servicios en crecimiento. Diagnóstico de procesos, sistemas y finanzas para recuperar visibilidad y decidir con claridad.">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="motion.css">
 </head>
 <body>
+
+<!-- Marca el documento antes de pintar: sin esto habría un parpadeo del
+     contenido visible pasando a oculto justo antes de la animación.
+     Si motion.js no llega a cargar, se saca la clase y la página queda
+     visible y estática: el contenido nunca depende de que el script ande. -->
+<script>
+  document.documentElement.classList.add('motion');
+  setTimeout(function () {
+    if (!window.__vestaMotion) document.documentElement.classList.remove('motion');
+  }, 2500);
+</script>
 
 <a class="skip-link" href="#contenido">Ir al contenido</a>
 
 <header class="site-header">
   <div class="wrap site-header__bar">
-    <a class="wordmark" href="#contenido">vesta&nbsp;<span class="script">O</span>ps</a>
-    <a class="btn btn--accent btn--sm" href="https://calendar.app.google/QkTkJuqHCJkMFVuc8" target="_blank" rel="noopener">Agendar una conversación</a>
+    <a class="wordmark" href="#contenido" data-reveal data-delay="0">vesta&nbsp;<span class="script">O</span>ps</a>
+    <a class="btn btn--accent btn--sm" href="https://calendar.app.google/QkTkJuqHCJkMFVuc8" target="_blank" rel="noopener" data-reveal data-delay="90" data-magnetic>Agendar una conversación</a>
   </div>
 </header>
 
@@ -25,33 +37,33 @@
     <div class="hero__blob hero__blob--warm" aria-hidden="true"></div>
     <div class="hero__blob hero__blob--cool" aria-hidden="true"></div>
     <div class="wrap hero__inner">
-      <p class="eyebrow eyebrow--on-dark">Consultoría financiero-operativa</p>
-      <h1>El número es solo el resultado. El problema está en el recorrido.</h1>
-      <p class="hero__lead">Ayudo a empresas de servicios en crecimiento a entender dónde se pierde visibilidad entre sus procesos, sistemas y finanzas, y qué conviene resolver primero.</p>
-      <p class="hero__actions"><a class="btn btn--accent btn--lg" href="https://calendar.app.google/QkTkJuqHCJkMFVuc8" target="_blank" rel="noopener">Agendar una conversación</a></p>
-      <p class="hero__note">Victoria Marin · Buenos Aires</p>
+      <p class="eyebrow eyebrow--on-dark" data-reveal="wipe" data-delay="200">Consultoría financiero-operativa</p>
+      <h1 data-reveal="lines" data-delay="320">El número es solo el resultado. El problema está en el recorrido.</h1>
+      <p class="hero__lead" data-reveal data-delay="620">Ayudo a empresas de servicios en crecimiento a entender dónde se pierde visibilidad entre sus procesos, sistemas y finanzas, y qué conviene resolver primero.</p>
+      <p class="hero__actions" data-reveal="wipe" data-delay="760"><a class="btn btn--accent btn--lg" href="https://calendar.app.google/QkTkJuqHCJkMFVuc8" target="_blank" rel="noopener" data-magnetic>Agendar una conversación</a></p>
+      <p class="hero__note" data-reveal data-delay="900">Victoria Marin · Buenos Aires</p>
     </div>
   </section>
 
   <!-- 2 · EL PROBLEMA -->
   <section class="section" id="problema">
     <div class="wrap">
-      <h2 class="section__title">Cuando la empresa crece más rápido que su estructura</h2>
-      <ul class="symptoms">
-        <li class="symptom">
+      <h2 class="section__title" data-reveal="lines">Cuando la empresa crece más rápido que su estructura</h2>
+      <ul class="symptoms" data-stagger-group="110">
+        <li class="symptom" data-reveal>
           <h3>Información repartida</h3>
           <p>Los datos están en distintas planillas, sistemas o personas.</p>
         </li>
-        <li class="symptom">
+        <li class="symptom" data-reveal>
           <h3>Demasiado trabajo manual</h3>
           <p>Cada cierre obliga a volver a cruzar información y corregir diferencias.</p>
         </li>
-        <li class="symptom">
+        <li class="symptom" data-reveal>
           <h3>Decisiones con poca visibilidad</h3>
           <p>Sabés que la empresa funciona, pero cuesta entender con precisión qué está pasando.</p>
         </li>
       </ul>
-      <p class="statement">Muchas veces el problema aparece en los números, pero empezó antes: en un proceso, una herramienta o una responsabilidad mal definida.</p>
+      <p class="statement" data-reveal>Muchas veces el problema aparece en los números, pero empezó antes: en un proceso, una herramienta o una responsabilidad mal definida.</p>
     </div>
   </section>
 
@@ -59,31 +71,31 @@
   <section class="section section--tinted" id="diagnostico">
     <div class="wrap">
       <div class="offer__head">
-        <p class="badge badge--accent">Servicio inicial</p>
-        <h2>Primero, entender.</h2>
-        <p class="offer__name">Diagnóstico Financiero-Operativo</p>
-        <p class="offer__lead">En 2–3 semanas reconstruimos cómo circulan el dinero y la información dentro de tu empresa, identificamos los principales problemas y definimos qué conviene resolver primero.</p>
+        <p class="badge badge--accent" data-reveal="wipe">Servicio inicial</p>
+        <h2 data-reveal="lines" data-delay="120">Primero, entender.</h2>
+        <p class="offer__name" data-reveal data-delay="240">Diagnóstico Financiero-Operativo</p>
+        <p class="offer__lead" data-reveal data-delay="320">En 2–3 semanas reconstruimos cómo circulan el dinero y la información dentro de tu empresa, identificamos los principales problemas y definimos qué conviene resolver primero.</p>
       </div>
 
-      <ol class="results">
-        <li class="result">
+      <ol class="results" data-stagger-group="110">
+        <li class="result" data-reveal>
           <span class="result__num">01</span>
           <h3>Radiografía</h3>
           <p>Qué está pasando realmente.</p>
         </li>
-        <li class="result">
+        <li class="result" data-reveal>
           <span class="result__num">02</span>
           <h3>Hallazgos y prioridades</h3>
           <p>Dónde están los riesgos y cuellos de botella.</p>
         </li>
-        <li class="result">
+        <li class="result" data-reveal>
           <span class="result__num">03</span>
           <h3>Hoja de ruta</h3>
           <p>Qué cambiar, en qué orden y por qué.</p>
         </li>
       </ol>
 
-      <p class="statement statement--after">Después decidís cómo seguir. Podés implementar la hoja de ruta internamente, con terceros o con VestaOps.</p>
+      <p class="statement statement--after" data-reveal>Después decidís cómo seguir. Podés implementar la hoja de ruta internamente, con terceros o con VestaOps.</p>
     </div>
   </section>
 
@@ -92,17 +104,19 @@
     <div class="founder__blob" aria-hidden="true"></div>
     <div class="wrap founder__inner">
       <div class="founder__intro">
-        <img class="founder__portrait" src="assets/victoria-marin-foto.jpg" alt="Victoria Marin, fundadora de VestaOps" width="440" height="440">
-        <img class="founder__logo" src="assets/logo/victoria-marin-light.png" alt="victoria marin" width="200" height="34">
-        <h2>Detrás de VestaOps</h2>
+        <span class="founder__portrait-wrap" data-reveal="scale">
+          <img class="founder__portrait" src="assets/victoria-marin-foto.jpg" alt="Victoria Marin, fundadora de VestaOps" width="440" height="440">
+        </span>
+        <img class="founder__logo" src="assets/logo/victoria-marin-light.png" alt="victoria marin" width="200" height="34" data-reveal data-delay="140">
+        <h2 data-reveal data-delay="220">Detrás de VestaOps</h2>
       </div>
       <div class="founder__body">
-        <p>Soy Victoria Marin. Hace más de 10 años trabajo entre finanzas, operaciones y sistemas, resolviendo problemas que muchas veces parecen financieros pero cuyo origen está en cómo funciona la operación.</p>
-        <p class="founder__quote">Mi foco no es solamente corregir el número. Es entender por qué llegó así y construir una forma de trabajar que no obligue a corregirlo todos los meses.</p>
-        <ul class="credentials">
-          <li>+10 años de experiencia</li>
-          <li>Finanzas + Operaciones + Sistemas</li>
-          <li>Entornos locales e internacionales</li>
+        <p data-reveal>Soy Victoria Marin. Hace más de 10 años trabajo entre finanzas, operaciones y sistemas, resolviendo problemas que muchas veces parecen financieros pero cuyo origen está en cómo funciona la operación.</p>
+        <p class="founder__quote" data-reveal data-delay="120">Mi foco no es solamente corregir el número. Es entender por qué llegó así y construir una forma de trabajar que no obligue a corregirlo todos los meses.</p>
+        <ul class="credentials" data-stagger-group="90">
+          <li data-reveal>+10 años de experiencia</li>
+          <li data-reveal>Finanzas + Operaciones + Sistemas</li>
+          <li data-reveal>Entornos locales e internacionales</li>
         </ul>
       </div>
     </div>
@@ -112,10 +126,10 @@
   <section class="cta" id="contacto">
     <div class="cta__blob" aria-hidden="true"></div>
     <div class="wrap cta__inner">
-      <h2>Antes de cambiar más cosas, entendamos qué está pasando.</h2>
-      <p>Agendemos 30 minutos para conocer tu situación y ver si el Diagnóstico Financiero-Operativo tiene sentido para tu empresa.</p>
-      <p class="cta__action"><a class="btn btn--ink btn--lg" href="https://calendar.app.google/QkTkJuqHCJkMFVuc8" target="_blank" rel="noopener">Agendar conversación</a></p>
-      <p class="cta__contact">
+      <h2 data-reveal="lines">Antes de cambiar más cosas, entendamos qué está pasando.</h2>
+      <p data-reveal data-delay="260">Agendemos 30 minutos para conocer tu situación y ver si el Diagnóstico Financiero-Operativo tiene sentido para tu empresa.</p>
+      <p class="cta__action" data-reveal="wipe" data-delay="380"><a class="btn btn--ink btn--lg" href="https://calendar.app.google/QkTkJuqHCJkMFVuc8" target="_blank" rel="noopener" data-magnetic>Agendar conversación</a></p>
+      <p class="cta__contact" data-reveal data-delay="480">
         Victoria Marin<br>
         <a href="mailto:vimarinochoa@gmail.com">vimarinochoa@gmail.com</a>
         <span aria-hidden="true"> · </span>
@@ -128,11 +142,13 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <span class="wordmark wordmark--sm">vesta&nbsp;<span class="script">O</span>ps</span>
-    <span>Consultoría financiero-operativa · Buenos Aires, Argentina</span>
-    <span>© 2026 VestaOps</span>
+    <span class="wordmark wordmark--sm" data-reveal>vesta&nbsp;<span class="script">O</span>ps</span>
+    <span data-reveal data-delay="90">Consultoría financiero-operativa · Buenos Aires, Argentina</span>
+    <span data-reveal data-delay="180">© 2026 VestaOps</span>
   </div>
 </footer>
+
+<script src="motion.js" defer></script>
 
 </body>
 </html>
